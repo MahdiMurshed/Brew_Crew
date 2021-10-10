@@ -3,14 +3,14 @@ import 'package:brew/shared/constants.dart';
 import 'package:brew/shared/loading.dart';
 import 'package:flutter/material.dart';
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   final Function toggleView;
-  SignIn({this.toggleView});
+  Register({this.toggleView});
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -18,6 +18,7 @@ class _SignInState extends State<SignIn> {
   String email = '';
   String password = '';
   String error = '';
+
   @override
   Widget build(BuildContext context) {
     return loading
@@ -27,7 +28,7 @@ class _SignInState extends State<SignIn> {
             appBar: AppBar(
               backgroundColor: Colors.brown[400],
               elevation: 0,
-              title: Text('Sign In to Brew Crew'),
+              title: Text('Sign Up to Brew Crew'),
               actions: [
                 FlatButton.icon(
                     onPressed: () {
@@ -35,7 +36,7 @@ class _SignInState extends State<SignIn> {
                     },
                     icon: Icon(Icons.person),
                     label: Text(
-                      'Register',
+                      'Sign In',
                       style: TextStyle(color: Colors.white),
                     ))
               ],
@@ -85,19 +86,18 @@ class _SignInState extends State<SignIn> {
                           setState(() {
                             loading = true;
                           });
-                          dynamic result =
-                              await _auth.signinWithEmailPass(email, password);
-
+                          dynamic result = await _auth.registerWithEmailPass(
+                              email, password);
                           if (result == null) {
                             setState(() {
-                              error = 'Can not Sign In';
                               loading = false;
+                              error = 'Something went Wrong';
                             });
                           }
                         }
                       },
                       child: Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
